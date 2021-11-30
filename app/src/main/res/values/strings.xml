@@ -1,0 +1,10 @@
+<resources>
+    <string name="app_name">Experimental Features Poc</string>
+    <string name="permission_required">Camera access is required to display the camera preview.</string>
+    <string name="ok">OK</string>
+    <string name="permission_granted">Permission is granted. You can use the camera now.</string>
+
+    <string name="facebook_app_id">1776301049426673</string>
+    <string name="fb_login_protocol_scheme">fb1776301049426673</string>
+
+</resources>
