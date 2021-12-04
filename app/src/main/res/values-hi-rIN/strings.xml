@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="sample_txt">यह नमूना पाठ है बस मामला दिखाने के लिए कि स्थान कैसे काम करते हैं।</string>
+    <string name="rb_txt_hin">हिंदी का चयन करें</string>
+    <string name="rb_txt_tel">तेलुगु का चयन करें</string>
+    <string name="rb_txt_eng">अंग्रेजी का चयन करें</string>
+    <string name="change_language">भाषा बदलें</string>
+</resources>

@@ -4,6 +4,7 @@
     <option name="filePathToZoomLevelMap">
       <map>
         <entry key="app/src/main/res/drawable/circle_menu_shape.xml" value="0.20615384615384616" />
+        <entry key="app/src/main/res/layout/activity_locale_show_case.xml" value="0.19322916666666667" />
         <entry key="app/src/main/res/layout/activity_main.xml" value="0.19322916666666667" />
       </map>
     </option>

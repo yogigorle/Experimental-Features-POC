@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="sample_txt">ఇది లొకేల్స్ ఎలా పని చేస్తుందో చూపించడానికి నమూనా వచనం.</string>
+    <string name="rb_txt_hin">హిందీని ఎంచుకోండి</string>
+    <string name="rb_txt_tel">తెలుగు ఎంచుకోండి</string>
+    <string name="rb_txt_eng">ఇంగ్లీష్ ఎంచుకోండి</string>
+    <string name="change_language">భాష మార్చు</string>
+</resources>

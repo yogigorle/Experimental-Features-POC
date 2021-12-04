@@ -1,10 +1,15 @@
 <resources>
-    <string name="app_name">Experimental Features Poc</string>
-    <string name="permission_required">Camera access is required to display the camera preview.</string>
-    <string name="ok">OK</string>
-    <string name="permission_granted">Permission is granted. You can use the camera now.</string>
+    <string name="app_name" translatable="false">Experimental Features Poc</string>
+    <string name="permission_required" translatable="false">Camera access is required to display the camera preview.</string>
+    <string name="ok" translatable="false">OK</string>
+    <string name="permission_granted" translatable="false">Permission is granted. You can use the camera now.</string>
 
-    <string name="facebook_app_id">1776301049426673</string>
-    <string name="fb_login_protocol_scheme">fb1776301049426673</string>
+    <string name="facebook_app_id" translatable="false">1776301049426673</string>
+    <string name="fb_login_protocol_scheme" translatable="false">fb1776301049426673</string>
+    <string name="sample_txt">This is the Sample text Just to Show case how Locales Work.</string>
+    <string name="rb_txt_hin">Select Hindi</string>
+    <string name="rb_txt_tel">Select Telugu</string>
+    <string name="rb_txt_eng">Select English</string>
+    <string name="change_language">Change Language</string>
 
 </resources>
