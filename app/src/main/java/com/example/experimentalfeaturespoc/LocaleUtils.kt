@@ -4,6 +4,7 @@ import android.content.Context
 import android.content.ContextWrapper
 import android.os.Build
 import android.os.LocaleList
+import com.google.android.material.internal.ContextUtils
 import java.util.*
 
 class LocaleUtils(baseContext: Context) : ContextWrapper(baseContext) {
@@ -22,8 +23,11 @@ class LocaleUtils(baseContext: Context) : ContextWrapper(baseContext) {
                 context = context.createConfigurationContext(config)
             } else {
                 config.setLocale(selectedLocale)
-//                resources.updateConfiguration()
+                resources.updateConfiguration(config, resources.displayMetrics)
             }
+
+            return LocaleUtils(context)
+
 
         }
     }
