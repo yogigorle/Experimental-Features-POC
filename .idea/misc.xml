@@ -3,8 +3,10 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
+        <entry key="../../../../layout/custom_preview.xml" value="0.20833333333333334" />
         <entry key="app/src/main/res/drawable/circle_menu_shape.xml" value="0.20615384615384616" />
-        <entry key="app/src/main/res/layout/activity_locale_show_case.xml" value="0.19322916666666667" />
+        <entry key="app/src/main/res/layout/activity_custom_fan_controller.xml" value="0.19322916666666667" />
+        <entry key="app/src/main/res/layout/activity_locale_show_case.xml" value="0.2" />
         <entry key="app/src/main/res/layout/activity_main.xml" value="0.19322916666666667" />
       </map>
     </option>

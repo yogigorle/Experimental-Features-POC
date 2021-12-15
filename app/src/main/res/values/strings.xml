@@ -11,5 +11,9 @@
     <string name="rb_txt_tel">Select Telugu</string>
     <string name="rb_txt_eng">Select English</string>
     <string name="change_language">Change Language</string>
+    <string name="fan_off" translatable="false">off</string>
+    <string name="fan_low" translatable="false">1</string>
+    <string name="fan_medium" translatable="false">2</string>
+    <string name="fan_high" translatable="false">3</string>
 
 </resources>
