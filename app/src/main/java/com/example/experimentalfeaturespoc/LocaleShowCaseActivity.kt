@@ -17,15 +17,15 @@ import androidx.lifecycle.lifecycleScope
 import com.example.experimentalfeaturespoc.databinding.ActivityLocaleShowCaseBinding
 import kotlinx.coroutines.launch
 import org.w3c.dom.Text
+import java.lang.StringBuilder
 import java.util.*
 
 class LocaleShowCaseActivity : BaseActivity() {
 
     private lateinit var localeShowCaseBinding: ActivityLocaleShowCaseBinding
 
-    private var enteredWordsList = MutableList(5) { "-" }
-
-    var index = 0
+    private var text = ""
+    private var delete = false
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -71,22 +71,46 @@ class LocaleShowCaseActivity : BaseActivity() {
                     after: Int
                 ) {
 
+                    text = etInput.text.toString()
+                    //handle delete case
+                    if (count > after) {
+                        delete = true
+                    }
+
+
                 }
 
                 override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
 
+                    //will take a string builder
+                    s?.let {
+                        val sb = StringBuilder(it)
+                        val replacePos = etInput.selectionEnd
+
+                        if (s.length != 6) {
+                            //handle delete or replace case
+                            if (delete) {
+                                sb.insert(replacePos, "-")
+                            } else {
+                                if (replacePos < s.length)
+                                    sb.deleteCharAt(replacePos)
+                            }
+                            if(replacePos < s.length || delete){
+                                etInput.setText(sb.toString())
+                                etInput.setSelection(replacePos)
+                            }else{
+                                etInput.setText(text)
+                                etInput.setSelection(replacePos - 1)
+                            }
+
+                        }
+                    }
+                    delete = false
+
                 }
 
                 override fun afterTextChanged(s: Editable?) {
-                    s?.let {
-                        if(index < 5){
-                            enteredWordsList[index++] = ""
-                            handleDashedEditText(enteredWordsList)
-                        }else{
-                            handleDashedEditText(enteredWordsList)
-                        }
 
-                    }
                 }
 
             })
@@ -94,28 +118,7 @@ class LocaleShowCaseActivity : BaseActivity() {
 
         }
 
-        handleDashedEditText(enteredWordsList)
 
-
-    }
-
-    private fun handleDashedEditText(wordsList: MutableList<String>) {
-        localeShowCaseBinding.llDashed.removeAllViews()
-        for (i in wordsList.withIndex()) {
-            Log.e("values", enteredWordsList.toString())
-            val textView = TextView(this).apply {
-                setTextAppearance(R.style.TextAppearance_MaterialComponents_Subtitle1)
-                setTextColor(Color.BLACK)
-            }
-            val params = ConstraintLayout.LayoutParams(
-                ConstraintLayout.LayoutParams.WRAP_CONTENT,
-                ConstraintLayout.LayoutParams.WRAP_CONTENT
-            );
-            textView.text = wordsList[i.index]
-            params.setMargins(0, 0, 20, 0);
-            textView.layoutParams = params
-            localeShowCaseBinding.llDashed.addView(textView)
-        }
     }
 
 

@@ -77,27 +77,16 @@
 
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/et_input"
+            style="@style/TextAppearance.MaterialComponents.Subtitle1"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            style="@style/TextAppearance.MaterialComponents.Subtitle1"
-            android:letterSpacing="0.06"
-            android:visibility="gone"
+            android:letterSpacing="0.8"
+            android:text="------"
             android:textColor="@color/black"
-            />
+            android:visibility="visible" />
 
 
     </com.google.android.material.textfield.TextInputLayout>
-
-    <LinearLayout
-        android:id="@+id/ll_dashed"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        app:layout_constraintStart_toStartOf="@id/tl_input"
-        app:layout_constraintTop_toTopOf="@id/tl_input"
-        app:layout_constraintBottom_toBottomOf="@id/tl_input"
-        android:layout_marginTop="18dp"
-        android:layout_marginStart="18dp" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>
