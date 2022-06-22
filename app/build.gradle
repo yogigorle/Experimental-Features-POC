@@ -7,19 +7,14 @@ plugins {
 
 android {
     signingConfigs {
-        debug {
-            storeFile file('/home/android/AndroidStudioProjects/ExperimentalFeaturesPoc/debug.keystore')
-            keyAlias 'androiddebugkey'
-            storePassword 'android'
-            keyPassword 'android'
-        }
+
     }
-    compileSdk 31
+    compileSdk 30
 
     defaultConfig {
         applicationId "com.example.experimentalfeaturespoc"
         minSdk 23
-        targetSdk 31
+        targetSdk 30
         versionCode 1
         versionName "1.0"
 
@@ -72,6 +67,18 @@ dependencies {
 
     //Preferences DataStore
     implementation "androidx.datastore:datastore-preferences:1.0.0"
+
+    ext {
+        ktor_version = "1.2.2"
+    }
+
+// Ktor
+    implementation "io.ktor:ktor-client-android:$ktor_version"
+    implementation "io.ktor:ktor-client-cio:$ktor_version"
+    implementation "io.ktor:ktor-client-serialization-jvm:$ktor_version"
+
+    // Kotlin components
+    implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-android:1.5.2'
 
 
 
