@@ -58,10 +58,10 @@
         android:layout_marginBottom="30dp" />
 
     <Button
-        android:id="@+id/btn_google_signout"
+        android:id="@+id/btn_invoke_calendar"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Sign out from google.."
+        android:text="Invoke Custom Calendar"
         android:visibility="visible"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
