@@ -62,6 +62,15 @@ class MainActivity : AppCompatActivity() {
         setContentView(mainActivityBinding.root)
         initClickListeners()
 
+        with(mainActivityBinding) {
+            btnMapPoc.setOnClickListener {
+                startActivity(Intent(this@MainActivity, MapsActivity::class.java))
+            }
+            btnAnimationPlayground.setOnClickListener {
+                startActivity(Intent(this@MainActivity, AnimationPlayground::class.java))
+            }
+        }
+
         callbackManager = CallbackManager.Factory.create()
 
 //        FirebaseApp.initializeApp(this)
@@ -90,21 +99,6 @@ class MainActivity : AppCompatActivity() {
 
     }
 
-    fun View.showSnackbar(
-        msg: String,
-        length: Int = 0,
-        actionMessage: CharSequence? = null,
-        action: (View) -> Unit
-    ) {
-        val snackbar = Snackbar.make(this, msg, length)
-        if (actionMessage != null) {
-            snackbar.setAction(actionMessage) {
-                action(this)
-            }.show()
-        } else {
-            snackbar.show()
-        }
-    }
 
     private fun onClickRequestPermission(view: View) {
         when {
@@ -113,9 +107,7 @@ class MainActivity : AppCompatActivity() {
                 android.Manifest.permission.CAMERA
             ) == PackageManager.PERMISSION_GRANTED -> {
                 layout.showSnackbar(
-                    getString(R.string.permission_granted),
-                    Snackbar.LENGTH_INDEFINITE,
-                    null
+                    getString(R.string.permission_granted)
                 ) {}
             }
             ActivityCompat.shouldShowRequestPermissionRationale(
@@ -124,8 +116,7 @@ class MainActivity : AppCompatActivity() {
             ) -> {
                 layout.showSnackbar(
                     getString(R.string.permission_required),
-                    Snackbar.LENGTH_INDEFINITE,
-                    getString(R.string.ok)
+                    actionMessage = getString(R.string.ok)
                 ) {
                     requestPermissionLauncher.launch(
                         android.Manifest.permission.CAMERA
@@ -156,6 +147,10 @@ class MainActivity : AppCompatActivity() {
 
             btnFbLogin.setOnClickListener {
                 signInUsingFb()
+            }
+
+            btnTabSelection.setOnClickListener {
+                startActivity(Intent(this@MainActivity, TabLayoutChipsSelection::class.java))
             }
         }
     }
@@ -243,8 +238,6 @@ class MainActivity : AppCompatActivity() {
                             parameters.putString("fields", "id,email,name")
                             graphRequest.parameters = parameters
                             graphRequest.executeAsync()
-
-
 
 
                         } catch (e: Exception) {
