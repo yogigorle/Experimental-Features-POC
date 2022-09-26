@@ -9,12 +9,14 @@
         <entry key="app/src/main/res/drawable/ic_chevron_left.xml" value="0.1265" />
         <entry key="app/src/main/res/drawable/ic_chevron_right.xml" value="0.1265" />
         <entry key="app/src/main/res/layout/activity_custom_fan_controller.xml" value="0.19322916666666667" />
+        <entry key="app/src/main/res/layout/activity_infinite_rv_test.xml" value="0.2947916666666667" />
         <entry key="app/src/main/res/layout/activity_locale_show_case.xml" value="0.2" />
         <entry key="app/src/main/res/layout/activity_main.xml" value="0.19322916666666667" />
         <entry key="app/src/main/res/layout/calendar_day_legend.xml" value="0.2947916666666667" />
         <entry key="app/src/main/res/layout/example_1_calendar_day.xml" value="0.29375" />
         <entry key="app/src/main/res/layout/example_5_calendar_header.xml" value="0.29375" />
         <entry key="app/src/main/res/layout/layout_custom_calendar_bs.xml" value="0.22810058593750004" />
+        <entry key="app/src/main/res/layout/sample_item.xml" value="0.29375" />
       </map>
     </option>
   </component>
