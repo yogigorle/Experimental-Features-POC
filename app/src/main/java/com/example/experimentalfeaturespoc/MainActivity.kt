@@ -4,8 +4,10 @@ import android.app.Activity
 import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageManager
+import android.net.Uri
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.os.Environment
 import android.util.Log
 import android.view.View
 import android.widget.Toast
@@ -22,6 +24,9 @@ import com.google.android.gms.tasks.Task
 import com.google.android.material.snackbar.Snackbar
 import java.util.jar.Manifest
 import androidx.annotation.NonNull
+import androidx.lifecycle.lifecycleScope
+import com.example.experimentalfeaturespoc.databinding.Example1CalendarDayBinding
+import com.example.experimentalfeaturespoc.databinding.LayoutCustomCalendarBsBinding
 import com.facebook.CallbackManager
 import com.facebook.FacebookCallback
 import com.facebook.FacebookException
@@ -30,9 +35,30 @@ import com.facebook.login.LoginBehavior
 import com.facebook.login.LoginResult
 
 import com.google.android.gms.tasks.OnCompleteListener
+import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.google.firebase.FirebaseApp
 import com.google.firebase.auth.FirebaseAuth
+import com.kizitonwose.calendarview.model.CalendarDay
+import com.kizitonwose.calendarview.ui.ViewContainer
+import io.ktor.client.*
+import io.ktor.client.call.*
+import io.ktor.client.engine.cio.*
+import io.ktor.client.request.*
+import io.ktor.http.*
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.coroutineScope
+import kotlinx.coroutines.flow.collect
+import kotlinx.coroutines.flow.collectLatest
+import kotlinx.coroutines.flow.flow
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
+import java.io.File
 import java.lang.Exception
+import java.time.LocalDate
+import java.time.YearMonth
+import java.time.format.DateTimeFormatter
+import java.util.concurrent.Flow
+import kotlin.math.roundToInt
 import kotlin.math.sign
 
 
@@ -44,6 +70,14 @@ class MainActivity : AppCompatActivity() {
     private var callbackManager: CallbackManager? = null
     val Req_Code: Int = 123
     private lateinit var firebaseAuth: FirebaseAuth
+    private val ktor = HttpClient(CIO)
+    private var calBottomSheetDialog: BottomSheetDialog? = null
+
+    //variables related to calendar config
+    private var selectedDates = mutableSetOf<LocalDate>()
+    private var monthTitleFormatter = DateTimeFormatter.ofPattern("MMMM")
+    private var today = LocalDate.now()
+
 
     private val requestPermissionLauncher = registerForActivityResult(
         ActivityResultContracts.RequestPermission()
@@ -97,6 +131,8 @@ class MainActivity : AppCompatActivity() {
             // Trigger a silent login, followed by interactive if silent fails.
         }
 
+        invokeCustomCalendarBs()
+
     }
 
 
@@ -141,12 +177,16 @@ class MainActivity : AppCompatActivity() {
                 googleSignIn()
             }
 
-            btnGoogleSignout.setOnClickListener {
-                signoutFromGoogle()
+            btnInvokeCalendar.setOnClickListener {
+                calBottomSheetDialog?.show()
             }
 
             btnFbLogin.setOnClickListener {
                 signInUsingFb()
+            }
+
+            btnDownloadPdf.setOnClickListener {
+                downloadWithFlow("http://tekkr-ecom-test.s3.amazonaws.com/Invoice/F29OR000411.pdf")
             }
 
             btnTabSelection.setOnClickListener {
@@ -266,6 +306,82 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
+    private fun downloadWithFlow(url: String) {
+        //get external storage directory
+        val externalStorageDir = getExternalFilesDir(null)
+        val folder = File(externalStorageDir, "Invoices")
+        if (!folder.exists()) {
+            folder.mkdir()
+        }
+        val invoiceFile = File(folder, url.substringAfter("Invoice/"))
+        if (!invoiceFile.exists()) {
+            //download and save to storage
+            lifecycleScope.launch(Dispatchers.IO) {
+                ktor.downloadFile(invoiceFile, url).collect {
+                    withContext(Dispatchers.Main) {
+                        when (it) {
+                            is DownloadStatus.Success -> {
+                                val browserIntent = Intent(Intent.ACTION_VIEW, Uri.parse(url))
+                                startActivity(browserIntent)
+                                Toast.makeText(
+                                    this@MainActivity,
+                                    "Download Successful",
+                                    Toast.LENGTH_SHORT
+                                )
+                                    .show()
+                            }
+
+                            is DownloadStatus.Error -> Toast.makeText(
+                                this@MainActivity,
+                                it.message,
+                                Toast.LENGTH_SHORT
+                            )
+                                .show()
+
+                            is DownloadStatus.Progress -> Toast.makeText(
+                                this@MainActivity,
+                                it.progress.toString(),
+                                Toast.LENGTH_SHORT
+                            )
+                                .show()
+                        }
+                    }
+                }
+            }
+
+        }
+    }
+
+    suspend fun HttpClient.downloadFile(
+        file: File,
+        url: String
+    ): kotlinx.coroutines.flow.Flow<DownloadStatus> {
+        return flow {
+            val response = call {
+                url(url)
+                method = HttpMethod.Get
+            }.response
+            val byteArray = ByteArray(response.contentLength()?.toInt() ?: 0)
+            var offset = 0
+            do {
+                val currentReadBytes =
+                    response.content.readAvailable(byteArray, offset, byteArray.size)
+                offset += currentReadBytes
+                val progress = (offset * 100f / byteArray.size).roundToInt()
+                emit(DownloadStatus.Progress(progress))
+
+            } while (currentReadBytes > 0)
+            response.close()
+            if (response.status.isSuccess()) {
+                file.writeBytes(byteArray)
+                emit(DownloadStatus.Success)
+            } else {
+                emit(DownloadStatus.Error("File not downloaded.."))
+            }
+        }
+    }
+
+
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         try {
             callbackManager?.onActivityResult(requestCode, resultCode, data)
@@ -274,4 +390,37 @@ class MainActivity : AppCompatActivity() {
         }
         super.onActivityResult(requestCode, resultCode, data)
     }
+
+    private fun invokeCustomCalendarBs() {
+
+        val daysOfWeek = daysOfWeekFromLocale()
+
+        val currentMonth = YearMonth.now()
+
+
+        calBottomSheetDialog = BottomSheetDialog(this, R.style.Theme_Design_BottomSheetDialog)
+        calBottomSheetDialog?.run {
+            val calLayoutBinding = LayoutCustomCalendarBsBinding.inflate(layoutInflater)
+            setContentView(calLayoutBinding.root)
+            with(calLayoutBinding) {
+                customCalendar.apply {
+                    setup(currentMonth, currentMonth.plusMonths(10), daysOfWeek.first())
+                    smoothScrollToMonth(currentMonth)
+                }
+
+                //class to hold days and handles click listener on the dates inherit from ViewContainer from  custom calendar library
+                class DayViewContainer(view: View): ViewContainer(view){
+                    //selected date will be assigned when this calass is binded to dayBinder of Custom calendar lib
+                    lateinit var day: CalendarDay
+                    val textView = Example1CalendarDayBinding.bind(view).tvDay
+                }
+
+            }
+        }
+    }
+
+    companion object {
+        var calendarType = ""
+    }
+
 }

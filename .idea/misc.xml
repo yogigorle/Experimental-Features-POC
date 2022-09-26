@@ -4,21 +4,17 @@
     <option name="filePathToZoomLevelMap">
       <map>
         <entry key="../../../../layout/custom_preview.xml" value="0.20833333333333334" />
-        <entry key="app/src/main/res/drawable/category_circle.xml" value="0.129" />
-        <entry key="app/src/main/res/drawable/chip_outline.xml" value="0.129" />
-        <entry key="app/src/main/res/drawable/chip_outline_selected.xml" value="0.129" />
-        <entry key="app/src/main/res/drawable/chip_tab_selector.xml" value="0.129" />
+        <entry key="app/src/main/res/drawable/bs_header_shape.xml" value="0.1265" />
         <entry key="app/src/main/res/drawable/circle_menu_shape.xml" value="0.20615384615384616" />
-        <entry key="app/src/main/res/layout/activity_animation_playground.xml" value="0.67" />
+        <entry key="app/src/main/res/drawable/ic_chevron_left.xml" value="0.1265" />
+        <entry key="app/src/main/res/drawable/ic_chevron_right.xml" value="0.1265" />
         <entry key="app/src/main/res/layout/activity_custom_fan_controller.xml" value="0.19322916666666667" />
         <entry key="app/src/main/res/layout/activity_locale_show_case.xml" value="0.2" />
         <entry key="app/src/main/res/layout/activity_main.xml" value="0.19322916666666667" />
-        <entry key="app/src/main/res/layout/activity_map_with_markers.xml" value="0.2" />
-        <entry key="app/src/main/res/layout/activity_maps.xml" value="0.17864583333333334" />
-        <entry key="app/src/main/res/layout/activity_paytm_payment.xml" value="0.19375" />
-        <entry key="app/src/main/res/layout/activity_tab_layout_chips_selection.xml" value="0.18" />
-        <entry key="app/src/main/res/layout/sample_layout.xml" value="0.19270833333333334" />
-        <entry key="app/src/main/res/layout/sample_layout1.xml" value="0.19375" />
+        <entry key="app/src/main/res/layout/calendar_day_legend.xml" value="0.2947916666666667" />
+        <entry key="app/src/main/res/layout/example_1_calendar_day.xml" value="0.29375" />
+        <entry key="app/src/main/res/layout/example_5_calendar_header.xml" value="0.29375" />
+        <entry key="app/src/main/res/layout/layout_custom_calendar_bs.xml" value="0.22810058593750004" />
       </map>
     </option>
   </component>
