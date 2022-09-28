@@ -1,0 +1,48 @@
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/cl_sub_category"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_marginHorizontal="4dp">
+
+    <View
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        android:id="@+id/subcategory_item_circle_bg"
+        android:layout_width="60dp"
+        android:layout_height="60dp"
+        android:layout_marginVertical="12dp"
+        />
+
+    <ImageView
+        android:id="@+id/iv_sub_category"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:padding="4dp"
+        android:scaleType="centerCrop"
+        app:layout_constraintStart_toStartOf="@id/subcategory_item_circle_bg"
+        app:layout_constraintEnd_toEndOf="@id/subcategory_item_circle_bg"
+        app:layout_constraintBottom_toBottomOf="@id/subcategory_item_circle_bg"
+        android:layout_marginBottom="5dp"
+        android:src="@drawable/whatsapp" />
+
+    <TextView
+        android:id="@+id/tv_product_name"
+        android:layout_width="72dp"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:maxLines="2"
+        android:padding="4dp"
+        android:ellipsize="end"
+        android:textColor="@color/black"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/subcategory_item_circle_bg"
+        app:layout_constraintStart_toStartOf="@id/subcategory_item_circle_bg"
+        app:layout_constraintEnd_toEndOf="@id/subcategory_item_circle_bg"
+        android:textSize="12dp"
+        tools:text="vegetables of the narnia" />
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

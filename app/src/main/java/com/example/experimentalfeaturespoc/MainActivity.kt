@@ -192,6 +192,11 @@ class MainActivity : AppCompatActivity() {
             btnTabSelection.setOnClickListener {
                 startActivity(Intent(this@MainActivity, TabLayoutChipsSelection::class.java))
             }
+
+            btnInfiniteRv.setOnClickListener {
+                startActivity(Intent(this@MainActivity, InfiniteRecyclerView::class.java))
+            }
+
         }
     }
 
@@ -354,7 +359,7 @@ class MainActivity : AppCompatActivity() {
 
     suspend fun HttpClient.downloadFile(
         file: File,
-        url: String
+        url: String,
     ): kotlinx.coroutines.flow.Flow<DownloadStatus> {
         return flow {
             val response = call {
@@ -409,7 +414,7 @@ class MainActivity : AppCompatActivity() {
                 }
 
                 //class to hold days and handles click listener on the dates inherit from ViewContainer from  custom calendar library
-                class DayViewContainer(view: View): ViewContainer(view){
+                class DayViewContainer(view: View) : ViewContainer(view) {
                     //selected date will be assigned when this calass is binded to dayBinder of Custom calendar lib
                     lateinit var day: CalendarDay
                     val textView = Example1CalendarDayBinding.bind(view).tvDay

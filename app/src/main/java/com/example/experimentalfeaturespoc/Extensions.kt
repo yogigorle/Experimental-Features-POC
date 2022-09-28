@@ -1,5 +1,12 @@
 package com.example.experimentalfeaturespoc
 
+import android.content.Context
+import android.content.pm.PackageManager
+import android.content.res.Resources
+import android.view.View
+import android.widget.Toast
+import androidx.core.app.ActivityCompat
+import com.google.android.material.snackbar.Snackbar
 import java.time.DayOfWeek
 import java.time.temporal.WeekFields
 import java.util.*
