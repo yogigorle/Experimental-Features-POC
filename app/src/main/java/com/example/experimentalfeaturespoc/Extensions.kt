@@ -1,11 +1,5 @@
 package com.example.experimentalfeaturespoc
 
-import android.text.Editable
-import android.text.TextWatcher
-import androidx.viewpager2.widget.ViewPager2
-import com.google.android.material.tabs.TabLayout
-import com.google.android.material.tabs.TabLayoutMediator
-import kotlinx.coroutines.*
 import java.time.DayOfWeek
 import java.time.temporal.WeekFields
 import java.util.*
@@ -26,6 +20,42 @@ fun daysOfWeekFromLocale(): Array<DayOfWeek> {
     return daysOfWeek
 }
 
+
+fun Context.checkPermission(permission: String) =
+    ActivityCompat.checkSelfPermission(this, permission) == PackageManager.PERMISSION_GRANTED
+
+fun Context.checkPermissions(permissions: Array<String>) =
+    ActivityCompat.checkSelfPermission(this,
+        permissions[0]) == PackageManager.PERMISSION_GRANTED || ActivityCompat.checkSelfPermission(
+        this,
+        permissions[1]) == PackageManager.PERMISSION_GRANTED
+
+fun Context.showToast(msg: String){
+    Toast.makeText(this, msg, Toast.LENGTH_SHORT).show()
+}
+
+fun View.showSnackbar(
+    msg: String,
+    length: Int = Snackbar.LENGTH_SHORT,
+    actionMessage: CharSequence? = null,
+    action: (View) -> Unit
+) {
+    val snackbar = Snackbar.make(this, msg, length)
+    if (actionMessage != null) {
+        snackbar.setAction(actionMessage) {
+            action(this)
+        }.show()
+    } else {
+        snackbar.show()
+    }
+}
+fun dpToPx(dp: Int): Int {
+    return ((dp * Resources.getSystem().displayMetrics.density).toInt());
+}
+
+fun pxToDp(px: Int, context: Context): Int {
+    return ((px / Resources.getSystem().displayMetrics.density).toInt());
+}
 
 class TypingListener(private val changedText: (String) -> Unit) : TextWatcher {
 

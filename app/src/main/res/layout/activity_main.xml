@@ -63,18 +63,18 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal"
-        app:layout_constraintTop_toBottomOf="@id/btnGoogle"
-        app:layout_constraintStart_toStartOf="parent"
+        android:layout_marginTop="10dp"
+        android:layout_marginBottom="30dp"
         app:layout_constraintEnd_toEndOf="parent"
-        android:layout_marginTop="30dp"
-        android:layout_marginBottom="30dp" />
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/btnGoogle" />
 
     <Button
         android:id="@+id/btn_invoke_calendar"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Invoke Custom Calendar"
-        android:visibility="visible"
+        android:visibility="gone"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
@@ -86,6 +86,42 @@
         app:layout_constraintBottom_toTopOf="@id/btnGoogle"
         android:layout_marginBottom="10dp"
         android:hint="search for your query"/>
+
+    <Button
+        android:id="@+id/btn_map_poc"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Maps Activity"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/button_req_permissions" />
+
+    <Button
+        android:id="@+id/btn_tab_selection"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Tab Selection"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/button_req_permissions" />
+
+    <Button
+        android:id="@+id/btn_animation_playground"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Animation Playground"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/btn_tab_selection" />
+
+    <Button
+        android:id="@+id/btn_infinite_rv"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Infinite rv"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

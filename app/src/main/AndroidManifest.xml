@@ -4,6 +4,8 @@
 
     <uses-permission android:name="android.permission.CAMERA" />
     <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
 
     <application
@@ -15,17 +17,36 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.ExperimentalFeaturesPoc">
         <activity
-            android:name=".InfiniteRvTest"
+            android:name=".InfiniteRecyclerView"
+            android:exported="false">
+            <meta-data
+                android:name="android.app.lib_name"
+                android:value="" />
+        </activity>
+        <activity
+            android:name=".AnimationPlayground"
+            android:exported="false" />
+        <activity
+            android:name=".TabLayoutChipsSelection"
+            android:exported="false" />
+        <activity
+            android:name=".PaytmPayment"
+            android:exported="false" />
+        <activity
+            android:name=".MapWithMarkers"
+            android:exported="false" />
+        <activity
+            android:name=".MapsActivity"
             android:exported="false" />
         <activity
             android:name=".DialView"
             android:exported="false" />
         <activity
             android:name=".CustomFanController"
-            android:exported="true"></activity>
+            android:exported="true" />
         <activity
             android:name=".LocaleShowCaseActivity"
-            android:exported="true"></activity>
+            android:exported="true" />
         <activity
             android:name=".MainActivity"
             android:exported="true">
@@ -39,6 +60,9 @@
         <meta-data
             android:name="com.facebook.sdk.ApplicationId"
             android:value="@string/facebook_app_id" />
+        <meta-data
+            android:name="com.google.android.geo.API_KEY"
+            android:value="AIzaSyBxuxXzQw5ZKY1KXEKFiZGh_JRBHZGS1ro" />
 
         <activity
             android:name="com.facebook.FacebookActivity"
