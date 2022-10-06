@@ -2,6 +2,9 @@ package com.example.experimentalfeaturespoc
 
 import android.text.Editable
 import android.text.TextWatcher
+import androidx.viewpager2.widget.ViewPager2
+import com.google.android.material.tabs.TabLayout
+import com.google.android.material.tabs.TabLayoutMediator
 import kotlinx.coroutines.*
 import java.time.DayOfWeek
 import java.time.temporal.WeekFields
@@ -54,4 +57,18 @@ class TypingListener(private val changedText: (String) -> Unit) : TextWatcher {
             }
         }
     }
+}
+
+
+fun attatchTabLayoutToViewPager(
+    vp: ViewPager2,
+    tabLayout: TabLayout,
+    onAttatched: (TabLayout.Tab, Int) -> Unit,
+) {
+    TabLayoutMediator(
+        tabLayout,
+        vp
+    ) { tab, position ->
+        onAttatched(tab, position)
+    }.attach()
 }
