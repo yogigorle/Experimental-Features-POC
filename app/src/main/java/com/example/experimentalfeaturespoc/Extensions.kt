@@ -1,5 +1,18 @@
 package com.example.experimentalfeaturespoc
 
+import android.content.Context
+import android.content.pm.PackageManager
+import android.content.res.Resources
+import android.text.Editable
+import android.text.TextWatcher
+import android.view.View
+import android.widget.Toast
+import androidx.core.app.ActivityCompat
+import androidx.viewpager2.widget.ViewPager2
+import com.google.android.material.snackbar.Snackbar
+import com.google.android.material.tabs.TabLayout
+import com.google.android.material.tabs.TabLayoutMediator
+import kotlinx.coroutines.*
 import java.time.DayOfWeek
 import java.time.temporal.WeekFields
 import java.util.*

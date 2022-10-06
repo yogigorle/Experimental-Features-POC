@@ -138,9 +138,9 @@ class MainActivity : AppCompatActivity() {
 
         invokeCustomCalendarBs()
 
-        mainActivityBinding.etSearch.addTextChangedListener(TypingListener(){
-            Log.e("SEARCHED_TEXT",it)
-        })
+//        mainActivityBinding.etSearch.addTextChangedListener(TypingListener(){
+//            Log.e("SEARCHED_TEXT",it)
+//        })
 
 
     }
