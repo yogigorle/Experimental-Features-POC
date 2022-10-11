@@ -1,6 +1,8 @@
 package com.example.experimentalfeaturespoc
 
 import android.graphics.Canvas
+import android.graphics.Paint
+import android.graphics.Rect
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.EdgeEffect
@@ -28,9 +30,19 @@ class InfiniteRecyclerView : AppCompatActivity() {
     }
 }
 
-class DrawableEdgeEffectFactory(): RecyclerView.EdgeEffectFactory(){
-    override fun createEdgeEffect(view: RecyclerView, direction: Int): EdgeEffect {
-        return object : EdgeEffect(view.context){
+class DrawableEdgeEffectFactory() : RecyclerView.EdgeEffectFactory() {
+
+    private var paint: Paint = Paint()
+
+    init {
+        paint.apply {
+            color = R.color.purple_200
+            style = Paint.Style.FILL
+        }
+    }
+
+    override fun createEdgeEffect(rv: RecyclerView, direction: Int): EdgeEffect {
+        return object : EdgeEffect(rv.context) {
             override fun onPull(deltaDistance: Float) {
                 super.onPull(deltaDistance)
                 Timber.e("ON PULLED, $deltaDistance")
@@ -53,7 +65,11 @@ class DrawableEdgeEffectFactory(): RecyclerView.EdgeEffectFactory(){
 
 
             override fun draw(canvas: Canvas?): Boolean {
+
+                canvas?.drawRect(30f, 30f, 80f, 80f, paint)
+
                 return super.draw(canvas)
+
             }
 
         }

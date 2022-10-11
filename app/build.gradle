@@ -3,7 +3,7 @@ plugins {
     id 'kotlin-android'
     id 'kotlin-kapt'
     id 'com.google.gms.google-services'
-
+    id 'com.google.android.libraries.mapsplatform.secrets-gradle-plugin'
 }
 
 android {
@@ -89,6 +89,10 @@ dependencies {
 
     //timber logging library
     implementation 'com.jakewharton.timber:timber:5.0.1'
+
+    // Places SDK for Android KTX Library
+    implementation 'com.google.maps.android:places-ktx:2.0.0'
+
 
 
 }

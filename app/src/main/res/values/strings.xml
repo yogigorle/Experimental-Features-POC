@@ -15,5 +15,6 @@
     <string name="fan_low" translatable="false">1</string>
     <string name="fan_medium" translatable="false">2</string>
     <string name="fan_high" translatable="false">3</string>
+    <string name="search_bar_hint" translatable="false">search area, street name, location</string>
 
 </resources>

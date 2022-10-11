@@ -16,7 +16,7 @@
         android:textSize="24dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toBottomOf="@id/rl_search_bar" />
 
     <TextView
         android:id="@+id/tv_lat"
@@ -133,4 +133,54 @@
         app:layout_constraintStart_toEndOf="@id/btn_get_current_loc"
         />
 
+    <RelativeLayout
+        android:id="@+id/rl_search_bar"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:layout_margin="16dp"
+        android:background="@drawable/item_bg_search_corners"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+
+        <FrameLayout
+            android:id="@+id/fl_back"
+            android:layout_width="?actionBarSize"
+            android:layout_height="?actionBarSize"
+            android:layout_alignParentStart="true"
+            android:layout_centerInParent="true"
+            android:background="?selectableItemBackground"
+            android:clickable="true"
+            android:focusable="true"
+            tools:ignore="SpeakableTextPresentCheck">
+
+            <ImageView
+                android:id="@+id/iv_back"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:background="@drawable/ic_outline_navigate_next_24"
+                android:rotation="180"
+                tools:ignore="contentDescription" />
+
+
+        </FrameLayout>
+
+
+        <androidx.appcompat.widget.SearchView
+            android:id="@+id/products_search_view"
+            android:layout_width="match_parent"
+            android:layout_height="?attr/actionBarSize"
+            android:layout_toEndOf="@id/fl_back"
+            android:focusable="true"
+            android:focusedByDefault="true"
+            android:imeOptions="actionDone"
+            android:theme="@style/AppSearchView"
+            app:iconifiedByDefault="false"
+            app:queryBackground="@android:color/transparent"
+            app:queryHint="@string/search_bar_hint"
+            app:searchIcon="@null" />
+
+    </RelativeLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>

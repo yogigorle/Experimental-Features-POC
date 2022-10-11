@@ -13,7 +13,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Download pdf"
-        app:layout_constraintTop_toBottomOf="@id/button_req_permissions"
+        app:layout_constraintTop_toBottomOf="@id/btn_map_poc"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         android:layout_marginTop="20dp"
@@ -81,9 +81,10 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Tab Selection"
+        android:layout_marginTop="10dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/button_req_permissions" />
+        app:layout_constraintTop_toBottomOf="@id/btn_map_poc" />
 
     <Button
         android:id="@+id/btn_animation_playground"

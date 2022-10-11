@@ -10,14 +10,26 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.provider.Settings
 import android.util.Log
+import android.widget.SearchView
 import android.widget.Toast
 import androidx.core.app.ActivityCompat
 import bolts.CancellationToken
 import com.example.experimentalfeaturespoc.databinding.ActivityMapsBinding
+import com.google.android.gms.common.api.ApiException
 import com.google.android.gms.location.FusedLocationProviderClient
 import com.google.android.gms.location.LocationRequest
 import com.google.android.gms.location.LocationServices
+import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.tasks.CancellationTokenSource
+import com.google.android.libraries.places.api.Places
+import com.google.android.libraries.places.api.model.AutocompleteSessionToken
+import com.google.android.libraries.places.api.model.RectangularBounds
+import com.google.android.libraries.places.api.model.TypeFilter
+import com.google.android.libraries.places.api.net.FindAutocompletePredictionsRequest
+import com.google.android.libraries.places.api.net.FindAutocompletePredictionsResponse
+import com.google.android.libraries.places.api.net.PlacesClient
+import kotlinx.coroutines.delay
+import timber.log.Timber
 import java.util.*
 import java.util.jar.Manifest
 
@@ -29,9 +41,12 @@ class MapsActivity : AppCompatActivity() {
     private val locationRequestCode = 100
     private var latitude = 0.0
     private var longitude = 0.0
+    private var findAutoCompletePredictionRequest: FindAutocompletePredictionsRequest.Builder? =
+        null
 
     //for getting current location, only one ref per lifecycle need to be cancelled on onStop()
     private val cancellationTokenSource = CancellationTokenSource()
+    private var placesClient: PlacesClient? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -53,6 +68,63 @@ class MapsActivity : AppCompatActivity() {
             }
         }
 
+        val autoCompleteSessionToken = AutocompleteSessionToken.newInstance()
+
+        val bounds = RectangularBounds.newInstance(LatLng(17.202458, 78.241024),
+            LatLng(17.603448, 78.677216))
+
+        if (!Places.isInitialized()) {
+            Places.initialize(this, BuildConfig.GOOGLE_PLACES_API_KEY)
+        }
+
+        placesClient = Places.createClient(this)
+
+        findAutoCompletePredictionRequest =
+            FindAutocompletePredictionsRequest.builder().setTypeFilter(TypeFilter.REGIONS)
+                .setLocationRestriction(bounds).setSessionToken(autoCompleteSessionToken)
+
+
+
+        mapsActivityBinding.productsSearchView.setOnQueryTextListener(object :
+            SearchView.OnQueryTextListener,
+            androidx.appcompat.widget.SearchView.OnQueryTextListener {
+            override fun onQueryTextSubmit(query: String): Boolean {
+
+//                    if (query.isNotEmpty() && query.count() > 2)
+                //update into recent searches.
+//                        callSearchProductsApi(query)
+                return false
+            }
+
+            var count = 0
+            override fun onQueryTextChange(newText: String): Boolean {
+                if (newText.isNotEmpty()) {
+                    setAutoCompleteAddressListener(newText)
+                }
+                return false
+            }
+
+        })
+
+    }
+
+    private fun setAutoCompleteAddressListener(query: String) {
+        placesClient?.run {
+            findAutoCompletePredictionRequest?.let {
+                this.findAutocompletePredictions(it.setQuery(query).build())
+                    .addOnSuccessListener { response: FindAutocompletePredictionsResponse ->
+                        for (prediction in response.autocompletePredictions) {
+                            Timber.e(prediction.placeId)
+                            Timber.e(prediction.getPrimaryText(null).toString())
+                        }
+                    }.addOnFailureListener { exception: Exception? ->
+                        if (exception is ApiException) {
+                            Timber.e("Place not found: " + exception.statusCode)
+                        }
+                    }
+
+            }
+        }
     }
 
     //check whether location is enabled or not in the device
