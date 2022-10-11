@@ -24,6 +24,7 @@ import com.google.android.gms.tasks.Task
 import com.google.android.material.snackbar.Snackbar
 import java.util.jar.Manifest
 import androidx.annotation.NonNull
+import androidx.core.widget.doAfterTextChanged
 import androidx.lifecycle.lifecycleScope
 import com.example.experimentalfeaturespoc.databinding.Example1CalendarDayBinding
 import com.example.experimentalfeaturespoc.databinding.LayoutCustomCalendarBsBinding
@@ -105,6 +106,10 @@ class MainActivity : AppCompatActivity() {
             }
         }
 
+        mainActivityBinding.btnInfiniteRv.setOnClickListener {
+            startActivity(Intent(this,InfiniteRvTest::class.java))
+        }
+
         callbackManager = CallbackManager.Factory.create()
 
 //        FirebaseApp.initializeApp(this)
@@ -132,6 +137,11 @@ class MainActivity : AppCompatActivity() {
         }
 
         invokeCustomCalendarBs()
+
+//        mainActivityBinding.etSearch.addTextChangedListener(TypingListener(){
+//            Log.e("SEARCHED_TEXT",it)
+//        })
+
 
     }
 
