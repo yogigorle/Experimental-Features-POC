@@ -68,6 +68,8 @@ class MapsActivity : AppCompatActivity() {
             }
         }
 
+        //CODE FOR AUTOCOMPLETE Search
+
         val autoCompleteSessionToken = AutocompleteSessionToken.newInstance()
 
         val bounds = RectangularBounds.newInstance(LatLng(17.202458, 78.241024),
@@ -82,7 +84,6 @@ class MapsActivity : AppCompatActivity() {
         findAutoCompletePredictionRequest =
             FindAutocompletePredictionsRequest.builder().setTypeFilter(TypeFilter.REGIONS)
                 .setLocationRestriction(bounds).setSessionToken(autoCompleteSessionToken)
-
 
 
         mapsActivityBinding.productsSearchView.setOnQueryTextListener(object :
