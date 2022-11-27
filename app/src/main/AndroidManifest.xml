@@ -17,6 +17,13 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.ExperimentalFeaturesPoc">
         <activity
+            android:name=".CustomCalendar"
+            android:exported="false">
+            <meta-data
+                android:name="android.app.lib_name"
+                android:value="" />
+        </activity>
+        <activity
             android:name=".InfiniteRecyclerView"
             android:exported="false">
             <meta-data
@@ -29,9 +36,7 @@
         <activity
             android:name=".TabLayoutChipsSelection"
             android:exported="false" />
-        <activity
-            android:name=".PaytmPayment"
-            android:exported="false" />
+
         <activity
             android:name=".MapWithMarkers"
             android:exported="false" />

@@ -59,7 +59,6 @@
         android:layout_height="wrap_content"
         app:layout_constraintTop_toBottomOf="@id/rl_cal_header"
         app:cv_dayViewResource="@layout/example_1_calendar_day"
-        app:cv_monthHeaderResource="@layout/example_5_calendar_header"
         app:cv_orientation="horizontal"
         app:cv_outDateStyle="endOfGrid"
         app:cv_scrollMode="paged" />

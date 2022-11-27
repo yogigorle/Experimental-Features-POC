@@ -75,9 +75,9 @@ class MapsActivity : AppCompatActivity() {
         val bounds = RectangularBounds.newInstance(LatLng(17.202458, 78.241024),
             LatLng(17.603448, 78.677216))
 
-        if (!Places.isInitialized()) {
-            Places.initialize(this, BuildConfig.GOOGLE_PLACES_API_KEY)
-        }
+//        if (!Places.isInitialized()) {
+//            Places.initialize(this, BuildConfig.GOOGLE_PLACES_API_KEY)
+//        }
 
         placesClient = Places.createClient(this)
 

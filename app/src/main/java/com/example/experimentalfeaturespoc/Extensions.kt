@@ -6,8 +6,11 @@ import android.content.res.Resources
 import android.text.Editable
 import android.text.TextWatcher
 import android.view.View
+import android.widget.TextView
 import android.widget.Toast
+import androidx.annotation.ColorRes
 import androidx.core.app.ActivityCompat
+import androidx.core.content.ContextCompat
 import androidx.viewpager2.widget.ViewPager2
 import com.google.android.material.snackbar.Snackbar
 import com.google.android.material.tabs.TabLayout
@@ -115,3 +118,7 @@ fun attatchTabLayoutToViewPager(
         onAttatched(tab, position)
     }.attach()
 }
+
+internal fun TextView.setTextColorRes(@ColorRes color: Int) = setTextColor(context.getColorCompat(color))
+
+internal fun Context.getColorCompat(@ColorRes color: Int) = ContextCompat.getColor(this, color)

@@ -40,6 +40,8 @@ import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.google.firebase.FirebaseApp
 import com.google.firebase.auth.FirebaseAuth
 import com.kizitonwose.calendarview.model.CalendarDay
+import com.kizitonwose.calendarview.model.DayOwner
+import com.kizitonwose.calendarview.ui.DayBinder
 import com.kizitonwose.calendarview.ui.ViewContainer
 import io.ktor.client.*
 import io.ktor.client.call.*
@@ -53,9 +55,11 @@ import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
+import timber.log.Timber
 import java.io.File
 import java.lang.Exception
 import java.time.LocalDate
+import java.time.MonthDay
 import java.time.YearMonth
 import java.time.format.DateTimeFormatter
 import java.util.concurrent.Flow
@@ -107,7 +111,7 @@ class MainActivity : AppCompatActivity() {
         }
 
         mainActivityBinding.btnInfiniteRv.setOnClickListener {
-            startActivity(Intent(this,InfiniteRvTest::class.java))
+            startActivity(Intent(this, InfiniteRvTest::class.java))
         }
 
         callbackManager = CallbackManager.Factory.create()
@@ -205,6 +209,10 @@ class MainActivity : AppCompatActivity() {
 
             btnInfiniteRv.setOnClickListener {
                 startActivity(Intent(this@MainActivity, InfiniteRecyclerView::class.java))
+            }
+
+            btnCustomCalendar.setOnClickListener {
+                startActivity(Intent(this@MainActivity, CustomCalendar::class.java))
             }
 
         }
@@ -411,26 +419,86 @@ class MainActivity : AppCompatActivity() {
         val daysOfWeek = daysOfWeekFromLocale()
 
         val currentMonth = YearMonth.now()
-
+        val endMonth = currentMonth.plusMonths(1)
 
         calBottomSheetDialog = BottomSheetDialog(this, R.style.Theme_Design_BottomSheetDialog)
         calBottomSheetDialog?.run {
             val calLayoutBinding = LayoutCustomCalendarBsBinding.inflate(layoutInflater)
             setContentView(calLayoutBinding.root)
             with(calLayoutBinding) {
-                customCalendar.apply {
-                    setup(currentMonth, currentMonth.plusMonths(10), daysOfWeek.first())
-                    smoothScrollToMonth(currentMonth)
-                }
-
                 //class to hold days and handles click listener on the dates inherit from ViewContainer from  custom calendar library
                 class DayViewContainer(view: View) : ViewContainer(view) {
-                    //selected date will be assigned when this calass is binded to dayBinder of Custom calendar lib
+                    //selected date will be assigned when this class is binded to dayBinder of Custom calendar lib
                     lateinit var day: CalendarDay
                     val textView = Example1CalendarDayBinding.bind(view).tvDay
+
+                    init {
+                        view.setOnClickListener {
+                            if (day.owner == DayOwner.THIS_MONTH) {
+                                if (selectedDates.contains(day.date)) {
+                                    (1..14).forEach {
+                                        selectedDates.remove(day.date.plusDays(it.toLong()))
+                                    }
+                                } else {
+                                    (1..14).forEach {
+                                        selectedDates.add(day.date.plusDays(it.toLong()))
+                                    }
+                                }
+                                Timber.e(selectedDates.toString())
+
+                                customCalendar.notifyDayChanged(day)
+
+                            }
+                        }
+                    }
+                }
+                customCalendar.apply {
+                    setup(currentMonth, endMonth, daysOfWeek.first())
+                    smoothScrollToMonth(currentMonth)
+                    dayBinder = object : DayBinder<DayViewContainer> {
+                        // Called only when a new container is needed.
+                        override fun create(view: View) = DayViewContainer(view)
+
+                        // Called every time we need to reuse a container.
+                        override fun bind(container: DayViewContainer, day: CalendarDay) {
+                            container.day = day
+                            val tv = container.textView
+                            tv.text = day.date.dayOfMonth.toString()
+                            (1..14).forEach {
+                                if (day.owner == DayOwner.THIS_MONTH) {
+                                    when {
+                                        selectedDates.contains(day.date) -> {
+                                            tv.setTextColorRes(R.color.selected_date_text_color)
+                                            tv.setBackgroundResource(R.drawable.example_1_selected_bg)
+                                        }
+                                        today == day.date -> {
+                                            tv.setTextColorRes(R.color.white)
+                                            tv.setBackgroundResource(R.drawable.example_1_today_bg)
+                                        }
+                                        else -> {
+                                            tv.setTextColorRes(R.color.white)
+                                            tv.background = null
+                                        }
+                                    }
+                                } else {
+                                    tv.setTextColorRes(R.color.light_white)
+                                    tv.background = null
+                                }
+                            }
+
+                        }
+                    }
+                    monthScrollListener =
+                        {
+
+                        }
+
+
                 }
 
+
             }
+
         }
     }
 
