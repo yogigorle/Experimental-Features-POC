@@ -435,18 +435,13 @@ class MainActivity : AppCompatActivity() {
                     init {
                         view.setOnClickListener {
                             if (day.owner == DayOwner.THIS_MONTH) {
-                                if (selectedDates.contains(day.date)) {
-                                    (1..14).forEach {
-                                        selectedDates.remove(day.date.plusDays(it.toLong()))
-                                    }
-                                } else {
-                                    (1..14).forEach {
-                                        selectedDates.add(day.date.plusDays(it.toLong()))
-                                    }
+                                selectedDates.clear()
+                                (0..13).forEach {
+                                    selectedDates.add(day.date.plusDays(it.toLong()))
                                 }
                                 Timber.e(selectedDates.toString())
 
-                                customCalendar.notifyDayChanged(day)
+                                customCalendar.notifyCalendarChanged()
 
                             }
                         }
@@ -464,27 +459,26 @@ class MainActivity : AppCompatActivity() {
                             container.day = day
                             val tv = container.textView
                             tv.text = day.date.dayOfMonth.toString()
-                            (1..14).forEach {
-                                if (day.owner == DayOwner.THIS_MONTH) {
-                                    when {
-                                        selectedDates.contains(day.date) -> {
-                                            tv.setTextColorRes(R.color.selected_date_text_color)
-                                            tv.setBackgroundResource(R.drawable.example_1_selected_bg)
-                                        }
-                                        today == day.date -> {
-                                            tv.setTextColorRes(R.color.white)
-                                            tv.setBackgroundResource(R.drawable.example_1_today_bg)
-                                        }
-                                        else -> {
-                                            tv.setTextColorRes(R.color.white)
-                                            tv.background = null
-                                        }
+                            if (day.owner == DayOwner.THIS_MONTH) {
+                                when {
+                                    selectedDates.contains(day.date) -> {
+                                        tv.setTextColorRes(R.color.selected_date_text_color)
+                                        tv.setBackgroundResource(R.drawable.example_1_selected_bg)
                                     }
-                                } else {
-                                    tv.setTextColorRes(R.color.light_white)
-                                    tv.background = null
+                                    today == day.date -> {
+                                        tv.setTextColorRes(R.color.white)
+                                        tv.setBackgroundResource(R.drawable.example_1_today_bg)
+                                    }
+                                    else -> {
+                                        tv.setTextColorRes(R.color.white)
+                                        tv.background = null
+                                    }
                                 }
+                            } else {
+                                tv.setTextColorRes(R.color.light_white)
+                                tv.background = null
                             }
+
 
                         }
                     }
