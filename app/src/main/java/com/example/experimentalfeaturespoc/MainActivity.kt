@@ -24,6 +24,7 @@ import com.google.android.gms.tasks.Task
 import com.google.android.material.snackbar.Snackbar
 import java.util.jar.Manifest
 import androidx.annotation.NonNull
+import androidx.core.util.rangeTo
 import androidx.core.widget.doAfterTextChanged
 import androidx.lifecycle.lifecycleScope
 import com.example.experimentalfeaturespoc.databinding.Example1CalendarDayBinding
@@ -63,6 +64,10 @@ import java.time.LocalDate
 import java.time.MonthDay
 import java.time.YearMonth
 import java.time.format.DateTimeFormatter
+import java.time.temporal.ChronoUnit
+import java.time.temporal.Temporal
+import java.time.temporal.TemporalAmount
+import java.time.temporal.TemporalUnit
 import java.util.concurrent.Flow
 import kotlin.math.roundToInt
 import kotlin.math.sign
@@ -418,10 +423,9 @@ class MainActivity : AppCompatActivity() {
     private fun invokeCustomCalendarBs() {
 
         val daysOfWeek = daysOfWeekFromLocale()
-
         val currentMonth = YearMonth.now()
         val endMonth = currentMonth.plusMonths(1)
-
+        val validDateRange = (today.plusDays(1) rangeTo today.plusDays(45))
         calBottomSheetDialog = BottomSheetDialog(this, R.style.Theme_Design_BottomSheetDialog)
         calBottomSheetDialog?.run {
             val calLayoutBinding = LayoutCustomCalendarBsBinding.inflate(layoutInflater)
@@ -445,37 +449,40 @@ class MainActivity : AppCompatActivity() {
                             //for alternate days
 //                            if(day.owner == DayOwner.THIS_MONTH){
 //                                selectedDates.clear()
-//                                (0..27).forEach {
+//                                (0..13).forEach {
 //                                    selectedDates.add(day.date.plusDays((if(it % 2 == 0)it else 0).toLong()))
 //                                }
 //                            }
                             //for weekdays selection
-//                            if (day.owner == DayOwner.THIS_MONTH && day.date.dayOfWeek != DayOfWeek.SATURDAY && day.date.dayOfWeek != DayOfWeek.SUNDAY) {
-//                                selectedDates.clear()
-//                                val endRangeNum = when (day.date.dayOfWeek) {
-//                                    DayOfWeek.MONDAY, DayOfWeek.TUESDAY -> 4
-//                                    else -> 6
-//                                }
-//                                (0..13 + endRangeNum).forEach {
-//                                    val currentDate = day.date.plusDays(it.toLong())
-//                                    Timber.e(currentDate.toString())
-//                                    val dayOfWeek = currentDate.dayOfWeek
-//                                    if (dayOfWeek != DayOfWeek.SATURDAY && dayOfWeek != DayOfWeek.SUNDAY) {
+                            if (day.owner == DayOwner.THIS_MONTH && day.date.dayOfWeek == DayOfWeek.SATURDAY || day.date.dayOfWeek == DayOfWeek.SUNDAY) {
+                                selectedDates.clear()
+                                val endRangeNum = when (day.date.dayOfWeek) {
+                                    DayOfWeek.MONDAY, DayOfWeek.TUESDAY -> 4
+                                    else -> 6
+                                }
+                                (0..13).forEach {
+                                    val currentDate = day.date.plusDays(it.toLong())
+                                    Timber.e(currentDate.toString())
+                                    val dayOfWeek = currentDate.dayOfWeek
+                                    if (dayOfWeek == DayOfWeek.SATURDAY || dayOfWeek == DayOfWeek.SUNDAY) {
+                                        selectedDates.add(day.date.plusDays(it.toLong()))
+                                    } else {
+//                                        val daysToAdd = when(dayOfWeek){
+//                                            DayOfWeek.SATURDAY -> 3
+//                                            DayOfWeek.SUNDAY -> 2
+//                                            else -> 0
+//                                        }
 //                                        selectedDates.add(day.date.plusDays(it.toLong()))
-//                                    } else {
-////                                        val daysToAdd = when(dayOfWeek){
-////                                            DayOfWeek.SATURDAY -> 3
-////                                            DayOfWeek.SUNDAY -> 2
-////                                            else -> 0
-////                                        }
-////                                        selectedDates.add(currentDate.plusDays(daysToAdd.toLong()))
-//                                        return@forEach
-//                                    }
-//                                }
 
-                            Timber.e(selectedDates.toString())
+                                    }
+                                }
 
-                            customCalendar.notifyCalendarChanged()
+                                Timber.e(selectedDates.toString())
+
+                                customCalendar.notifyCalendarChanged()
+                            }
+
+
                         }
                     }
                 }
@@ -492,21 +499,17 @@ class MainActivity : AppCompatActivity() {
                             container.day = day
                             val tv = container.textView
                             tv.text = day.date.dayOfMonth.toString()
+                            Timber.e(day.toString())
                             if (day.owner == DayOwner.THIS_MONTH) {
                                 when {
                                     selectedDates.contains(day.date) -> {
                                         tv.setTextColorRes(R.color.selected_date_text_color)
                                         tv.setBackgroundResource(R.drawable.example_1_selected_bg)
                                     }
-
-                                    today == day.date -> {
-                                        tv.setTextColorRes(R.color.white)
-                                        tv.setBackgroundResource(R.drawable.example_1_today_bg)
-                                    }
-                                    day.date.dayOfWeek == DayOfWeek.SATURDAY || day.date.dayOfWeek == DayOfWeek.SUNDAY -> {
-                                        tv.setTextColorRes(R.color.light_white)
-                                        tv.background = null
-                                    }
+//                                    today == day.date -> {
+//                                        tv.setTextColorRes(R.color.white)
+//                                        tv.setBackgroundResource(R.drawable.example_1_today_bg)
+//                                    }
                                     else -> {
                                         tv.setTextColorRes(R.color.white)
                                         tv.background = null
