@@ -205,8 +205,9 @@ class MainActivity : AppCompatActivity() {
                 signInUsingFb()
             }
 
-            btnDownloadPdf.setOnClickListener {
-                downloadWithFlow("http://tekkr-ecom-test.s3.amazonaws.com/Invoice/F29OR000411.pdf")
+            btnBusSeatSelection.setOnClickListener {
+//                downloadWithFlow("http://tekkr-ecom-test.s3.amazonaws.com/Invoice/F29OR000411.pdf")
+                startActivity(Intent(this@MainActivity, BusSeatMapActivity::class.java))
             }
 
             btnTabSelection.setOnClickListener {

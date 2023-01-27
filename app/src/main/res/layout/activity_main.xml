@@ -9,11 +9,11 @@
 
 
     <Button
-        android:id="@+id/btn_download_pdf"
+        android:id="@+id/btn_bus_seat_selection"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Download pdf"
-        app:layout_constraintTop_toBottomOf="@id/btn_map_poc"
+        android:text="Bus seat_map"
+        app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         android:layout_marginTop="20dp"
@@ -25,7 +25,8 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="INFINITE RV"
-        app:layout_constraintTop_toBottomOf="@id/btn_download_pdf"
+        android:visibility="gone"
+        app:layout_constraintTop_toBottomOf="@id/btn_bus_seat_selection"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         android:layout_marginTop="20dp"
@@ -85,7 +86,7 @@
         android:layout_height="wrap_content"
         app:layout_constraintBottom_toTopOf="@id/btnGoogle"
         android:layout_marginBottom="10dp"
-        android:hint="search for your query"/>
+        android:hint="search for your query" />
 
     <Button
         android:id="@+id/btn_map_poc"
@@ -124,8 +125,6 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintBottom_toBottomOf="parent" />
-
-
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>
