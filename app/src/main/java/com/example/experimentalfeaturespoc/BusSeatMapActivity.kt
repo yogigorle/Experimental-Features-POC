@@ -2,16 +2,24 @@ package com.example.experimentalfeaturespoc
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.view.Gravity
 import android.view.View
 import android.view.ViewGroup
+import android.view.ViewGroup.INVISIBLE
 import android.view.ViewGroup.MarginLayoutParams
+import android.widget.GridLayout
 import android.widget.LinearLayout
+import android.widget.Space
+import androidx.appcompat.app.WindowDecorActionBar.TabImpl
 import androidx.core.view.isVisible
 import androidx.core.view.setMargins
 import com.example.experimentalfeaturespoc.databinding.ActivityBusSeatMapBinding
 import com.example.experimentalfeaturespoc.databinding.BusSeatLayoutBinding
+import com.example.experimentalfeaturespoc.databinding.LayoutDividerSpaceBinding
 import com.example.experimentalfeaturespoc.databinding.SleeperSeatLayoutBinding
 import timber.log.Timber
+import kotlin.time.ExperimentalTime
+import kotlin.time.measureTime
 
 class BusSeatMapActivity : AppCompatActivity() {
 
@@ -25,6 +33,7 @@ class BusSeatMapActivity : AppCompatActivity() {
         setUpData()
     }
 
+    @OptIn(ExperimentalTime::class)
     private fun setUpData() {
 
         val totalRows = 4
@@ -107,55 +116,185 @@ class BusSeatMapActivity : AppCompatActivity() {
         )
 
 
+        val totalRowsSleeperCumSeater = 5
+        val totalColsSleeperCumSeater = 12
+        val dividerRowSleeperCumSeater = 3
+        val lowerDeckSleeperCumSeaterList = listOf(
+            BusLayoutInfo.TotalSeatList.LowerdeckSeatNo("2", 1, 1, "SS"),
+            BusLayoutInfo.TotalSeatList.LowerdeckSeatNo("4", 1, 2, "SS"),
+            BusLayoutInfo.TotalSeatList.LowerdeckSeatNo("6", 1, 3, "SS"),
+            BusLayoutInfo.TotalSeatList.LowerdeckSeatNo("8", 1, 4, "SS"),
+            BusLayoutInfo.TotalSeatList.LowerdeckSeatNo("N", 1, 5, "SS"),
+            BusLayoutInfo.TotalSeatList.LowerdeckSeatNo("P", 1, 7, "SS"),
+            BusLayoutInfo.TotalSeatList.LowerdeckSeatNo("R", 1, 9, "SS"),
+            BusLayoutInfo.TotalSeatList.LowerdeckSeatNo("T", 1, 11, "SS"),
+            BusLayoutInfo.TotalSeatList.LowerdeckSeatNo("1", 2, 1, "SS"),
+            BusLayoutInfo.TotalSeatList.LowerdeckSeatNo("3", 2, 2, "SS"),
+            BusLayoutInfo.TotalSeatList.LowerdeckSeatNo("5", 2, 3, "SS"),
+            BusLayoutInfo.TotalSeatList.LowerdeckSeatNo("7", 2, 4, "SS"),
+            BusLayoutInfo.TotalSeatList.LowerdeckSeatNo("M", 2, 5, "SS"),
+            BusLayoutInfo.TotalSeatList.LowerdeckSeatNo("O", 2, 7, "SS"),
+            BusLayoutInfo.TotalSeatList.LowerdeckSeatNo("Q", 2, 9, "SS"),
+            BusLayoutInfo.TotalSeatList.LowerdeckSeatNo("S", 2, 11, "SS"),
+            BusLayoutInfo.TotalSeatList.LowerdeckSeatNo("D2", 4, 3, "LB"),
+            BusLayoutInfo.TotalSeatList.LowerdeckSeatNo("D4", 4, 5, "LB"),
+            BusLayoutInfo.TotalSeatList.LowerdeckSeatNo("D6", 4, 7, "LB"),
+            BusLayoutInfo.TotalSeatList.LowerdeckSeatNo("D8", 4, 9, "LB"),
+            BusLayoutInfo.TotalSeatList.LowerdeckSeatNo("D10", 4, 11, "LB"),
+            BusLayoutInfo.TotalSeatList.LowerdeckSeatNo("DS1", 5, 1, "LB"),
+            BusLayoutInfo.TotalSeatList.LowerdeckSeatNo("D1", 5, 3, "LB"),
+            BusLayoutInfo.TotalSeatList.LowerdeckSeatNo("D3", 5, 5, "LB"),
+            BusLayoutInfo.TotalSeatList.LowerdeckSeatNo("D5", 5, 7, "LB"),
+            BusLayoutInfo.TotalSeatList.LowerdeckSeatNo("D7", 5, 9, "LB"),
+            BusLayoutInfo.TotalSeatList.LowerdeckSeatNo("D9", 5, 11, "LB"),
+        )
+
         busSeatMapBinding?.run {
 
             tvLowerDeckSeatNoTxt.text = "2+1 AC Sleeper"
 
             llLowerDeckSeats.removeAllViews()
+            var cachedPreviousSeatType: String? = null
+            val timeTaken = measureTime {
 
-            for (i in 1..totalRows) {
-                val isDividerRow =
-                    lowerDeckSleeperSeatsList.firstOrNull { dividerRow == i }?.let { true }
-                        ?: false
-                val linearLayout = LinearLayout(this@BusSeatMapActivity).apply {
-                    orientation = LinearLayout.VERTICAL
-                }
-                linearLayout.removeAllViews()
-                for (j in 1..totalCols) {
-//                    val isEmptySpacePresent =
-//                        lowerDeckSeaterSeatsList.firstOrNull {  && it.ColNo == j }?.let { true }
+                addEmptyCellsToGrid()
+
+//                for (i in 1..totalRowsSleeperCumSeater) {
+//                    val isDividerRow =
+//                        lowerDeckSleeperCumSeaterList.firstOrNull { dividerRowSleeperCumSeater == i }
+//                            ?.let { true }
 //                            ?: false
-                    val seatNo =
-                        lowerDeckSleeperSeatsList.firstOrNull { it.RowNo == i && it.ColNo == j }?.SeatNo
-                            ?: 0
-
-                    val sleeperSeatLayoutBinding =
-                        SleeperSeatLayoutBinding.inflate(layoutInflater, root, false)
-                    val layoutParams =
-                        sleeperSeatLayoutBinding.rlBusSleeper.layoutParams as MarginLayoutParams
-                    layoutParams.setMargins(dpToPx(8))
-                    sleeperSeatLayoutBinding.rlBusSleeper.layoutParams = layoutParams
-
-                    with(sleeperSeatLayoutBinding) {
-                        rlBusSleeper.setOnClickListener {
-                            showToast(seatNo.toString())
-                        }
-                        if (seatNo != 0) {
-                            rlBusSleeper.visibility = View.VISIBLE
-                            tvSeatNo.text = seatNo.toString()
-                        } else if (isDividerRow) {
-                            rlBusSleeper.visibility = View.INVISIBLE
-                        } else {
-                            rlBusSleeper.visibility = View.GONE
-                        }
-                        linearLayout.addView(sleeperSeatLayoutBinding.root)
-
-                    }
-
-                }
-                llLowerDeckSeats.addView(linearLayout)
+//
+//                    val linearLayout = LinearLayout(this@BusSeatMapActivity).apply {
+//                        orientation = LinearLayout.VERTICAL
+//                    }
+//                    linearLayout.removeAllViews()
+//                    for (j in 1..totalColsSleeperCumSeater) {
+////                    val isEmptySpacePresent =
+////                        lowerDeckSeaterSeatsList.firstOrNull {  && it.ColNo == j }?.let { true }
+////                            ?: false
+//                        val seatInfo =
+//                            lowerDeckSleeperCumSeaterList.firstOrNull { it.RowNo == i && it.ColNo == j }
+//
+//                        cachedPreviousSeatType = seatInfo?.Availability ?: cachedPreviousSeatType
+//
+//                        val view = if (seatInfo?.Availability == "SS") {
+//                            //add
+//                            val seaterSeatLayoutBinding = BusSeatLayoutBinding.inflate(
+//                                layoutInflater, root, false
+//                            )
+//                            val layoutParams =
+//                                seaterSeatLayoutBinding.rlBusSeater.layoutParams as MarginLayoutParams
+//                            layoutParams.setMargins(dpToPx(8))
+//                            seaterSeatLayoutBinding.rlBusSeater.layoutParams = layoutParams
+//                            seaterSeatLayoutBinding.root
+//                        } else if (seatInfo?.Availability == "LB") {
+//                            val sleeperSeatLayoutBinding = SleeperSeatLayoutBinding.inflate(
+//                                layoutInflater, root, false
+//                            )
+//                            val layoutParams =
+//                                sleeperSeatLayoutBinding.rlBusSleeper.layoutParams as MarginLayoutParams
+//                            layoutParams.setMargins(dpToPx(8))
+//                            sleeperSeatLayoutBinding.rlBusSleeper.layoutParams = layoutParams
+//                            sleeperSeatLayoutBinding.root
+//                        } else {
+////                            if(isDividerRow){
+////                            if (cachedPreviousSeatType == "LB"){
+////                                null
+////                            }else{
+//                                Timber.e("empty seat at row $i and at col $j and seat type is SS")
+//                                val seaterSeatLayoutBinding = BusSeatLayoutBinding.inflate(
+//                                    layoutInflater, root, false
+//                                )
+//                                val layoutParams =
+//                                    seaterSeatLayoutBinding.rlBusSeater.layoutParams as MarginLayoutParams
+//                                layoutParams.setMargins(dpToPx(8))
+//                                seaterSeatLayoutBinding.rlBusSeater.layoutParams = layoutParams
+//                                seaterSeatLayoutBinding.rlBusSeater.visibility = INVISIBLE
+//                                seaterSeatLayoutBinding.root
+////                            }
+//
+////                            }else{
+////                                null
+////                            }
+//
+//                        }
+//
+//                        view?.let { linearLayout.addView(it) }
+//
+////                    val sleeperSeatLayoutBinding =
+////                        SleeperSeatLayoutBinding.inflate(layoutInflater, root, false)
+////                    val layoutParams =
+////                        sleeperSeatLayoutBinding.rlBusSleeper.layoutParams as MarginLayoutParams
+////                    layoutParams.setMargins(dpToPx(8))
+////                    sleeperSeatLayoutBinding.rlBusSleeper.layoutParams = layoutParams
+////
+////                    with(sleeperSeatLayoutBinding) {
+////                        rlBusSleeper.setOnClickListener {
+////                            showToast(seatNo.toString())
+////                        }
+////                        if (seatNo != 0) {
+////                            rlBusSleeper.visibility = View.VISIBLE
+////                            tvSeatNo.text = seatNo.toString()
+////                        } else if (isDividerRow) {
+////                            rlBusSleeper.visibility = View.INVISIBLE
+////                        } else {
+////                            rlBusSleeper.visibility = View.GONE
+////                        }
+////                        linearLayout.addView(sleeperSeatLayoutBinding.root)
+////
+////                    }
+//
+//                    }
+//                    llLowerDeckSeats.addView(linearLayout)
+//                }
             }
+
+            Timber.e("time taken by linear layout is $timeTaken")
         }
     }
+
+    private fun addEmptyCellsToGrid() {
+        busSeatMapBinding?.run {
+            for (c in 0 until glSeatMap.columnCount) {
+                val layoutParams = GridLayout.LayoutParams()
+                layoutParams.apply {
+                    rowSpec = GridLayout.spec(0, 0, 1f)
+                    columnSpec = GridLayout.spec(c, 1, 0.5f)
+                    setGravity(Gravity.FILL)
+                    width = 0
+                    glSeatMap.addView(Space(this@BusSeatMapActivity), this)
+                }
+            }
+
+            for (r in 0 until glSeatMap.rowCount) {
+                val layoutParams = GridLayout.LayoutParams()
+                layoutParams.apply {
+                    rowSpec = GridLayout.spec(r, 1, 0.5f)
+                    columnSpec = GridLayout.spec(0, 0, 0f)
+                    setGravity(Gravity.FILL)
+                    width = 0
+                    glSeatMap.addView(Space(this@BusSeatMapActivity), this)
+                }
+            }
+        }
+
+    }
+
+    private fun drawSeatMap(noOfRows: Int, noOfCols: Int){
+         busSeatMapBinding?.run {
+             glSeatMap.apply {
+                 rowCount = noOfRows
+                 columnCount = noOfCols
+                 for(i in 0 until noOfRows){
+                     for(j in 0..noOfCols) {
+
+                     }
+                 }
+             }
+         }
+    }
+
+
 
 }
