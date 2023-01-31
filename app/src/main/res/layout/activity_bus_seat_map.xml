@@ -35,10 +35,31 @@
         android:layout_height="0dp"
         android:orientation="vertical"
         android:useDefaultMargins="true"
+        android:rowCount="12"
+        android:columnCount="5"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/tv_lower_deck_seat_no_txt">
+
+        <include
+            layout="@layout/bus_seat_layout"/>
+
+        <include
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            layout="@layout/bus_seat_layout"/>
+
+        <include
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            layout="@layout/bus_seat_layout"/>
+
+        <include
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_row="4"
+            layout="@layout/bus_seat_layout"/>
 
 
     </GridLayout>
