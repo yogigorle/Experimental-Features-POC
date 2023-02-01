@@ -40,10 +40,10 @@ import com.google.android.gms.tasks.OnCompleteListener
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.google.firebase.FirebaseApp
 import com.google.firebase.auth.FirebaseAuth
-import com.kizitonwose.calendarview.model.CalendarDay
-import com.kizitonwose.calendarview.model.DayOwner
-import com.kizitonwose.calendarview.ui.DayBinder
-import com.kizitonwose.calendarview.ui.ViewContainer
+//import com.kizitonwose.calendarview.model.CalendarDay
+//import com.kizitonwose.calendarview.model.DayOwner
+//import com.kizitonwose.calendarview.ui.DayBinder
+//import com.kizitonwose.calendarview.ui.ViewContainer
 import io.ktor.client.*
 import io.ktor.client.call.*
 import io.ktor.client.engine.cio.*
@@ -86,8 +86,8 @@ class MainActivity : AppCompatActivity() {
 
     //variables related to calendar config
     private var selectedDates = mutableSetOf<LocalDate>()
-    private var monthTitleFormatter = DateTimeFormatter.ofPattern("MMMM")
-    private var today = LocalDate.now()
+//    private var monthTitleFormatter = DateTimeFormatter.ofPattern("MMMM")
+//    private var today = LocalDate.now()
 
 
     private val requestPermissionLauncher = registerForActivityResult(
@@ -423,119 +423,116 @@ class MainActivity : AppCompatActivity() {
 
     private fun invokeCustomCalendarBs() {
 
-        val daysOfWeek = daysOfWeekFromLocale()
-        val currentMonth = YearMonth.now()
-        val endMonth = currentMonth.plusMonths(1)
-        val validDateRange = (today.plusDays(1) rangeTo today.plusDays(45))
-        calBottomSheetDialog = BottomSheetDialog(this, R.style.Theme_Design_BottomSheetDialog)
-        calBottomSheetDialog?.run {
-            val calLayoutBinding = LayoutCustomCalendarBsBinding.inflate(layoutInflater)
-            setContentView(calLayoutBinding.root)
-            with(calLayoutBinding) {
-                //class to hold days and handles click listener on the dates inherit from ViewContainer from  custom calendar library
-                class DayViewContainer(view: View) : ViewContainer(view) {
-                    //selected date will be assigned when this class is binded to dayBinder of Custom calendar lib
-                    lateinit var day: CalendarDay
-                    val textView = Example1CalendarDayBinding.bind(view).tvDay
-
-                    init {
-                        view.setOnClickListener {
-                            //for simultaneous days
-//                            if(day.owner == DayOwner.THIS_MONTH){
+//        val daysOfWeek = daysOfWeekFromLocale()
+//        val currentMonth = YearMonth.now()
+//        val endMonth = currentMonth.plusMonths(1)
+//        val validDateRange = (today.plusDays(1) rangeTo today.plusDays(45))
+//        calBottomSheetDialog = BottomSheetDialog(this, R.style.Theme_Design_BottomSheetDialog)
+//        calBottomSheetDialog?.run {
+//            val calLayoutBinding = LayoutCustomCalendarBsBinding.inflate(layoutInflater)
+//            setContentView(calLayoutBinding.root)
+//            with(calLayoutBinding) {
+//                //class to hold days and handles click listener on the dates inherit from ViewContainer from  custom calendar library
+//                class DayViewContainer(view: View) : ViewContainer(view) {
+//                    //selected date will be assigned when this class is binded to dayBinder of Custom calendar lib
+//                    lateinit var day: CalendarDay
+//                    val textView = Example1CalendarDayBinding.bind(view).tvDay
+//
+//                    init {
+//                        view.setOnClickListener {
+//                            //for simultaneous days
+////                            if(day.owner == DayOwner.THIS_MONTH){
+////                                selectedDates.clear()
+////                                (0..13).forEach {
+////                                    selectedDates.add(day.date.plusDays(it.toLong()))
+////                                }
+////                            }
+//                            //for alternate days
+////                            if(day.owner == DayOwner.THIS_MONTH){
+////                                selectedDates.clear()
+////                                (0..13).forEach {
+////                                    selectedDates.add(day.date.plusDays((if(it % 2 == 0)it else 0).toLong()))
+////                                }
+////                            }
+//                            //for weekdays selection
+//                            if (day.owner == DayOwner.THIS_MONTH && day.date.dayOfWeek == DayOfWeek.SATURDAY || day.date.dayOfWeek == DayOfWeek.SUNDAY) {
 //                                selectedDates.clear()
-//                                (0..13).forEach {
-//                                    selectedDates.add(day.date.plusDays(it.toLong()))
+//                                val endRangeNum = when (day.date.dayOfWeek) {
+//                                    DayOfWeek.MONDAY, DayOfWeek.TUESDAY -> 4
+//                                    else -> 6
 //                                }
-//                            }
-                            //for alternate days
-//                            if(day.owner == DayOwner.THIS_MONTH){
-//                                selectedDates.clear()
 //                                (0..13).forEach {
-//                                    selectedDates.add(day.date.plusDays((if(it % 2 == 0)it else 0).toLong()))
-//                                }
-//                            }
-                            //for weekdays selection
-                            if (day.owner == DayOwner.THIS_MONTH && day.date.dayOfWeek == DayOfWeek.SATURDAY || day.date.dayOfWeek == DayOfWeek.SUNDAY) {
-                                selectedDates.clear()
-                                val endRangeNum = when (day.date.dayOfWeek) {
-                                    DayOfWeek.MONDAY, DayOfWeek.TUESDAY -> 4
-                                    else -> 6
-                                }
-                                (0..13).forEach {
-                                    val currentDate = day.date.plusDays(it.toLong())
-                                    Timber.e(currentDate.toString())
-                                    val dayOfWeek = currentDate.dayOfWeek
-                                    if (dayOfWeek == DayOfWeek.SATURDAY || dayOfWeek == DayOfWeek.SUNDAY) {
-                                        selectedDates.add(day.date.plusDays(it.toLong()))
-                                    } else {
-//                                        val daysToAdd = when(dayOfWeek){
-//                                            DayOfWeek.SATURDAY -> 3
-//                                            DayOfWeek.SUNDAY -> 2
-//                                            else -> 0
-//                                        }
+//                                    val currentDate = day.date.plusDays(it.toLong())
+//                                    Timber.e(currentDate.toString())
+//                                    val dayOfWeek = currentDate.dayOfWeek
+//                                    if (dayOfWeek == DayOfWeek.SATURDAY || dayOfWeek == DayOfWeek.SUNDAY) {
 //                                        selectedDates.add(day.date.plusDays(it.toLong()))
-
-                                    }
-                                }
-
-                                Timber.e(selectedDates.toString())
-
-                                customCalendar.notifyCalendarChanged()
-                            }
-
-
-                        }
-                    }
-                }
-
-                customCalendar.apply {
-                    setup(currentMonth, endMonth, daysOfWeek.first())
-                    smoothScrollToMonth(currentMonth)
-                    dayBinder = object : DayBinder<DayViewContainer> {
-                        // Called only when a new container is needed.
-                        override fun create(view: View) = DayViewContainer(view)
-
-                        // Called every time we need to reuse a container.
-                        override fun bind(container: DayViewContainer, day: CalendarDay) {
-                            container.day = day
-                            val tv = container.textView
-                            tv.text = day.date.dayOfMonth.toString()
-                            Timber.e(day.toString())
-                            if (day.owner == DayOwner.THIS_MONTH) {
-                                when {
-                                    selectedDates.contains(day.date) -> {
-                                        tv.setTextColorRes(R.color.selected_date_text_color)
-                                        tv.setBackgroundResource(R.drawable.example_1_selected_bg)
-                                    }
-//                                    today == day.date -> {
-//                                        tv.setTextColorRes(R.color.white)
-//                                        tv.setBackgroundResource(R.drawable.example_1_today_bg)
+//                                    } else {
+////                                        val daysToAdd = when(dayOfWeek){
+////                                            DayOfWeek.SATURDAY -> 3
+////                                            DayOfWeek.SUNDAY -> 2
+////                                            else -> 0
+////                                        }
+////                                        selectedDates.add(day.date.plusDays(it.toLong()))
+//
 //                                    }
-                                    else -> {
-                                        tv.setTextColorRes(R.color.white)
-                                        tv.background = null
-                                    }
-                                }
-                            } else {
-                                tv.setTextColorRes(R.color.light_white)
-                                tv.background = null
-                            }
-
-
-                        }
-                    }
-                    monthScrollListener =
-                        {
-
-                        }
-
-
-                }
-
-
-            }
-
-        }
+//                                }
+//
+//                                Timber.e(selectedDates.toString())
+//
+//                                customCalendar.notifyCalendarChanged()
+//                            }
+//
+//
+//                        }
+//                    }
+//                }
+//
+//                customCalendar.apply {
+//                    setup(currentMonth, endMonth, daysOfWeek.first())
+//                    smoothScrollToMonth(currentMonth)
+//                    dayBinder = object : DayBinder<DayViewContainer> {
+//                        // Called only when a new container is needed.
+//                        override fun create(view: View) = DayViewContainer(view)
+//
+//                        // Called every time we need to reuse a container.
+//                        override fun bind(container: DayViewContainer, day: CalendarDay) {
+//                            container.day = day
+//                            val tv = container.textView
+//                            tv.text = day.date.dayOfMonth.toString()
+//                            Timber.e(day.toString())
+//                            if (day.owner == DayOwner.THIS_MONTH) {
+//                                when {
+//                                    selectedDates.contains(day.date) -> {
+//                                        tv.setTextColorRes(R.color.selected_date_text_color)
+//                                        tv.setBackgroundResource(R.drawable.example_1_selected_bg)
+//                                    }
+////                                    today == day.date -> {
+////                                        tv.setTextColorRes(R.color.white)
+////                                        tv.setBackgroundResource(R.drawable.example_1_today_bg)
+////                                    }
+//                                    else -> {
+//                                        tv.setTextColorRes(R.color.white)
+//                                        tv.background = null
+//                                    }
+//                                }
+//                            } else {
+//                                tv.setTextColorRes(R.color.light_white)
+//                                tv.background = null
+//                            }
+//
+//
+//                        }
+//                    }
+//
+//
+//
+//                }
+//
+//
+//            }
+//
+//        }
     }
 
     companion object {
