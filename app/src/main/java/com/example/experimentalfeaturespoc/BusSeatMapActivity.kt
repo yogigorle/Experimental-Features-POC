@@ -10,6 +10,7 @@ import android.widget.GridLayout
 import android.widget.LinearLayout
 import android.widget.Space
 import androidx.appcompat.app.WindowDecorActionBar.TabImpl
+import androidx.compose.ui.unit.dp
 import androidx.core.view.isVisible
 import androidx.core.view.setMargins
 import com.example.experimentalfeaturespoc.databinding.ActivityBusSeatMapBinding
@@ -318,9 +319,10 @@ class BusSeatMapActivity : AppCompatActivity() {
                             val seaterSeatLayoutBinding = BusSeatLayoutBinding.inflate(
                                 layoutInflater, root, false
                             )
-//                            val layoutParams =
-//                                seaterSeatLayoutBinding.rlBusSeater.layoutParams as MarginLayoutParams
-//                            seaterSeatLayoutBinding.rlBusSeater.layoutParams = layoutParams
+                            val layoutParams =
+                                seaterSeatLayoutBinding.rlBusSeater.layoutParams as MarginLayoutParams
+                            layoutParams.setMargins(dpToPx(8))
+                            seaterSeatLayoutBinding.rlBusSeater.layoutParams = layoutParams
                             seaterSeatLayoutBinding.root
 
                         } else if (seatInfo?.Availability == "LB") {
@@ -328,16 +330,17 @@ class BusSeatMapActivity : AppCompatActivity() {
                                 layoutInflater, root, false
                             )
 
-//                            val layoutParams =
-//                                sleeperSeatLayoutBinding.rlBusSleeper.layoutParams as MarginLayoutParams
-//                            sleeperSeatLayoutBinding.rlBusSleeper.layoutParams = layoutParams
+                            val layoutParams =
+                                sleeperSeatLayoutBinding.rlBusSleeper.layoutParams as MarginLayoutParams
+                            layoutParams.setMargins(dpToPx(8))
+                            sleeperSeatLayoutBinding.rlBusSleeper.layoutParams = layoutParams
                             sleeperSeatLayoutBinding.root
                         } else {
                             Timber.e("empty seat at row $i and at col $j and seat type is SS")
                             val seaterSeatLayoutBinding = BusSeatLayoutBinding.inflate(
                                 layoutInflater, root, false
                             )
-                            seaterSeatLayoutBinding.rlBusSeater.visibility = VISIBLE
+                            seaterSeatLayoutBinding.rlBusSeater.visibility = INVISIBLE
                             seaterSeatLayoutBinding.root
 //                            if (isDividerRow) {
 //                                Timber.e("empty seat at row $i and at col $j and seat type is SS")
@@ -362,8 +365,8 @@ class BusSeatMapActivity : AppCompatActivity() {
                         }
 
                         val gridLayoutParams = GridLayout.LayoutParams(
-                            GridLayout.spec(rowIndex),
-                            GridLayout.spec(colIndex)
+                            GridLayout.spec(rowIndex,if(seatInfo?.Availability == "LB")0 else 1),
+                            GridLayout.spec(colIndex,1),
                         )
 
                         Timber.e("rowindex is $rowIndex and colIndex is $colIndex and seat type is ${seatInfo?.Availability}")
