@@ -62,7 +62,7 @@ class MapWithMarkers : AppCompatActivity(), OnMapReadyCallback {
     private fun getAddressFromLatLong(latLng: LatLng): Address? {
         val geocoder = Geocoder(this, Locale.getDefault())
         return try {
-            geocoder.getFromLocation(latLng.latitude, latLng.longitude, 1)[0]
+            geocoder.getFromLocation(latLng.latitude, latLng.longitude, 1)?.get(0)
         } catch (e: Exception) {
             null
         }

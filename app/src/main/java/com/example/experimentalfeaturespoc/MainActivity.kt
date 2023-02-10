@@ -193,6 +193,10 @@ class MainActivity : AppCompatActivity() {
                 onClickRequestPermission(buttonReqPermissions)
             }
 
+            btnJetpackPlayground.setOnClickListener {
+                startActivity(Intent(this@MainActivity,JetPackComposePlayGround::class.java))
+            }
+
             btnGoogle.setOnClickListener {
                 googleSignIn()
             }

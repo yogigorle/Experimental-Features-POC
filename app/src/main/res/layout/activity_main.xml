@@ -21,6 +21,18 @@
         />
 
     <Button
+        android:id="@+id/btn_jetpack_playground"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Jetpack Compose Playground"
+        app:layout_constraintTop_toBottomOf="@id/btn_bus_seat_selection"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginTop="20dp"
+
+        />
+
+    <Button
         android:id="@+id/btn_infinite_rv"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
