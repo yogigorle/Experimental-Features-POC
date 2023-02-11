@@ -1,25 +1,19 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/rl_bus_seater"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content">
 
-    <ImageView
+    <com.google.android.material.card.MaterialCardView
         android:layout_width="30dp"
         android:layout_height="30dp"
         android:scaleType="fitXY"
-        android:src="@drawable/ic_bus_seater_seat" />
+        app:strokeColor="@color/black"
+        app:strokeWidth="1.5dp"
+        />
 
-    <TextView
-        android:id="@+id/tv_seat_no"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_centerInParent="true"
-        android:paddingBottom="13dp"
-        android:textColor="@color/white"
-        android:textSize="10sp"
-        tools:text="24" />
 
-</RelativeLayout>
+</LinearLayout>

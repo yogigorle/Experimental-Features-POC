@@ -37,9 +37,9 @@ class BusSeatMapActivity : AppCompatActivity() {
     @OptIn(ExperimentalTime::class)
     private fun setUpData() {
 
-        val totalRows = 4
-        val totalCols = 12
-        val dividerRow = 2
+        val totalRows = 5
+        val totalCols = 13
+        val dividerRow = 3
         val lowerDeckSeaterSeatsList = listOf(
             BusLayoutInfo.TotalSeatList.LowerdeckSeatNo("4", 1, 1, "SS"),
             BusLayoutInfo.TotalSeatList.LowerdeckSeatNo("8", 1, 2, "SS"),
@@ -152,16 +152,13 @@ class BusSeatMapActivity : AppCompatActivity() {
 
         busSeatMapBinding?.run {
 
-            tvLowerDeckSeatNoTxt.text = "2+1 AC Sleeper"
-
-            llLowerDeckSeats.removeAllViews()
             var cachedPreviousSeatType: String? = null
             val timeTaken = measureTime {
 
 //                addEmptyCellsToGrid(totalColsSleeperCumSeater, totalRowsSleeperCumSeater)
 
                 drawSeatMap(
-                    dividerRow,
+                    2,
                     lowerDeckSleeperSeatsList
                 )
 
@@ -298,7 +295,7 @@ class BusSeatMapActivity : AppCompatActivity() {
     ) {
         busSeatMapBinding?.run {
             glSeatMap.apply {
-                rowCount = 11
+                rowCount = 12
                 columnCount = 4
                 for (i in 1..columnCount) {
                     val isDividerRow =
@@ -330,16 +327,17 @@ class BusSeatMapActivity : AppCompatActivity() {
                             )
                             sleeperSeatLayoutBinding.root
                         } else {
-                            null
-//                            if(isDividerRow){
-//                            val seaterSeatLayoutBinding = BusSeatLayoutBinding.inflate(
-//                                layoutInflater, root, false
-//                            )
-//                            seaterSeatLayoutBinding.rlBusSeater.visibility = INVISIBLE
-//                            seaterSeatLayoutBinding.root
-//                            }else{
-//                                null
-//                            }
+//                            null
+                            if (isDividerRow) {
+                                val seaterSeatLayoutBinding = BusSeatLayoutBinding.inflate(
+                                    layoutInflater, root, false
+                                )
+                                seaterSeatLayoutBinding.rlBusSeater.visibility = VISIBLE
+
+                                seaterSeatLayoutBinding.root
+                            } else {
+                                null
+                            }
 
 
 //                            if (isDividerRow) {
@@ -365,7 +363,7 @@ class BusSeatMapActivity : AppCompatActivity() {
                         }
 
                         val gridLayoutParams = GridLayout.LayoutParams(
-                            GridLayout.spec(rowIndex, if (seatInfo?.Availability == "LB") 1 else 1),
+                            GridLayout.spec(rowIndex, if (seatInfo?.Availability == "LB") 1 else 0),
                             GridLayout.spec(colIndex, 1),
                         )
 
